@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYTO AI</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant:ital,wght@1,300;1,400&family=Lato:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #e8621a;
+      --orange-light: #f5956b;
+      --ink: #1c1c1c;
+      --ink-soft: #555;
+      --ink-faint: #aaa;
+      --rule: rgba(0, 0, 0, 0.1);
+      --bg: #faf9f7;
+      --white: #ffffff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── LANG ── */
+    .lang {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+    }
+
+    .lang-btn {
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--ink-faint);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+
+    .lang-btn.on {
+      color: var(--orange);
+    }
+
+    .lang-btn:hover {
+      color: var(--ink);
+    }
+
+    .lang-sep {
+      color: var(--ink-faint);
+      font-size: 10px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 26px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 22px;
+      color: var(--ink);
+      letter-spacing: 0.5px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--orange);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      padding: 0 48px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* thin vertical rule */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: var(--rule);
+    }
+
+    .hero-left {
+      padding-right: 64px;
+      padding-top: 160px;
+    }
+
+    .hero-overline {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-overline::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--orange);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(64px, 6.5vw, 100px);
+      line-height: 1.0;
+      letter-spacing: -1px;
+      color: var(--ink);
+      margin-bottom: 36px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--ink-soft);
+      max-width: 380px;
+      margin-bottom: 48px;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 4px;
+    }
+
+    .hero-cta:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .hero-right {
+      padding-left: 64px;
+      padding-top: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .h-stat {}
+
+    .h-stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 52px;
+      letter-spacing: -2px;
+      line-height: 1;
+      color: var(--orange);
+    }
+
+    .h-stat-l {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .hero-note {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+    }
+
+    /* ── SECTION BASE ── */
+    .section {
+      padding: 100px 48px;
+      border-top: 1px solid var(--rule);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-full {
+      padding: 100px 48px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .s-header {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      margin-bottom: 72px;
+      align-items: start;
+    }
+
+    .s-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--ink-faint);
+      letter-spacing: 1px;
+      padding-top: 8px;
+    }
+
+    .s-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(40px, 4vw, 60px);
+      line-height: 1.05;
+      letter-spacing: -1px;
+      color: var(--ink);
+    }
+
+    .s-title em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    /* ── PROBLEM ── */
+    .problem-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .p-item {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 28px;
+      align-items: start;
+      position: relative;
+    }
+
+    .p-item:nth-child(odd) {
+      padding-right: 60px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .p-item:nth-child(even) {
+      padding-left: 60px;
+    }
+
+    .p-idx {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--orange);
+      font-weight: 300;
+      padding-top: 2px;
+    }
+
+    .p-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 22px;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .p-desc {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+    }
+
+    /* ── SOLUTION ── */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .feat {
+      padding: 44px 0;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      transition: background 0.2s;
+    }
+
+    .feat:last-child {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .feat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--ink-faint);
+      padding-top: 4px;
+    }
+
+    .feat-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 26px;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .feat-name em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .feat-desc {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+    }
+
+    /* ── INTEGRATIONS ── */
+    .int-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--rule);
+      border-left: 1px solid var(--rule);
+    }
+
+    .int-item {
+      padding: 36px 28px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.2s;
+    }
+
+    .int-item:hover {
+      background: rgba(232, 98, 26, 0.03);
+    }
+
+    .int-em {
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .int-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 17px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .int-desc {
+      font-size: 12px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+
+    .int-live {
+      margin-top: 14px;
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #4caf73;
+      font-weight: 400;
+    }
+
+    .cli-line {
+      padding: 36px 48px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cli-l-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 22px;
+      color: var(--ink);
+    }
+
+    .cli-l-text em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .cli-r-code {
+      font-family: 'Lato', monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: var(--orange);
+      border: 1px solid rgba(232, 98, 26, 0.25);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cli-tag {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      border-left: 1px solid var(--rule);
+      padding-left: 12px;
+    }
+
+    /* ── MARKET ── */
+    .market-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+
+    .mstat-col {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .mstat {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 36px;
+    }
+
+    .mstat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 60px;
+      letter-spacing: -3px;
+      line-height: 1;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .mstat-l {
+      font-size: 12px;
+      color: var(--ink-soft);
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+    }
+
+    .mstat-src {
+      font-size: 10px;
+      color: var(--ink-faint);
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+
+    .chart-col {}
+
+    .chart-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 20px;
+      color: var(--ink);
+      margin-bottom: 36px;
+    }
+
+    .bar-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bar-yr {
+      font-size: 11px;
+      color: var(--ink-faint);
+      width: 32px;
+      text-align: right;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 2px;
+      background: var(--rule);
+      position: relative;
+    }
+
+    .bar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      background: var(--orange);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+      opacity: 0.7;
+    }
+
+    .bar-fill.soft {
+      opacity: 0.25;
+    }
+
+    .bar-val {
+      font-size: 11px;
+      color: var(--ink-soft);
+      width: 36px;
+      text-align: right;
+      font-weight: 400;
+    }
+
+    /* ── COMPETITION ── */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .comp-table th {
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-weight: 400;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .comp-table th:first-child {
+      text-align: left;
+    }
+
+    .comp-table td {
+      text-align: center;
+      padding: 20px 20px;
+      border-bottom: 1px solid var(--rule);
+      font-size: 14px;
+      color: var(--ink-faint);
+      transition: background 0.2s;
+    }
+
+    .comp-table tr:hover td {
+      background: rgba(232, 98, 26, 0.02);
+    }
+
+    .comp-table td:first-child {
+      text-align: left;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--ink);
+      letter-spacing: -0.2px;
+    }
+
+    .lyto-row td {
+      color: var(--ink) !important;
+    }
+
+    .lyto-row td:first-child {
+      font-style: italic;
+      color: var(--orange) !important;
+    }
+
+    .ck {
+      color: var(--orange);
+      font-size: 16px;
+    }
+
+    .cr {
+      color: var(--ink-faint);
+      font-size: 16px;
+      opacity: 0.35;
+    }
+
+    .comp-caption {
+      margin-top: 28px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--ink-soft);
+    }
+
+    .comp-caption em {
+      color: var(--orange);
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    /* ── TRACTION ── */
+    .traction-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .tr-item {
+      padding: 56px 0;
+      border-right: 1px solid var(--rule);
+    }
+
+    .tr-item:last-child {
+      border-right: none;
+    }
+
+    .tr-item:not(:first-child) {
+      padding-left: 56px;
+    }
+
+    .tr-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 80px;
+      letter-spacing: -4px;
+      line-height: 1;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .tr-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 4px;
+      font-weight: 400;
+    }
+
+    .tr-sub {
+      font-size: 12px;
+      color: var(--ink-faint);
+      letter-spacing: 0.5px;
+    }
+
+    .traction-note {
+      padding-top: 48px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      max-width: 680px;
+      border-left: 1px solid var(--orange);
+      padding-left: 32px;
+    }
+
+    .traction-note strong {
+      color: var(--ink);
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    /* ── ROADMAP ── */
+    .rmap-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .rmap-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      padding: 40px 0;
+      border-top: 1px solid var(--rule);
+      align-items: start;
+    }
+
+    .rmap-row:last-child {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .rmap-phase {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--ink-soft);
+      padding-top: 2px;
+    }
+
+    .rmap-phase.now {
+      color: var(--orange);
+    }
+
+    .rmap-items-row {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .rmap-item {
+      font-size: 13px;
+      color: var(--ink-soft);
+      padding: 4px 24px 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rmap-item.done::before {
+      content: '—';
+      color: var(--orange);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+    }
+
+    .rmap-item.plan::before {
+      content: '·';
+      color: var(--ink-faint);
+      font-size: 20px;
+      line-height: 0;
+    }
+
+    .rmap-item.fut::before {
+      content: '·';
+      color: var(--rule);
+      font-size: 20px;
+      line-height: 0;
+    }
+
+    /* ── ASK ── */
+    .ask-section {
+      padding: 100px 48px;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .ask-left {}
+
+    .ask-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(44px, 5vw, 72px);
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+
+    .ask-big em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .ask-sub-text {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      margin-bottom: 40px;
+    }
+
+    .ask-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--orange);
+      text-decoration: none;
+      font-weight: 400;
+      padding: 16px 32px;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .ask-cta:hover {
+      background: #c8501a;
+      box-shadow: 0 8px 32px rgba(232, 98, 26, 0.3);
+    }
+
+    .ask-right {}
+
+    .ask-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .ask-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+      gap: 24px;
+    }
+
+    .ask-k {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-weight: 400;
+      flex-shrink: 0;
+      width: 130px;
+    }
+
+    .ask-v {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--ink);
+      text-align: right;
+    }
+
+    .ask-v.orange {
+      color: var(--orange);
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .f-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 20px;
+      color: var(--ink);
+      letter-spacing: 0.5px;
+    }
+
+    .f-right {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .f-right a,
+    .f-right span {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--ink-faint);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .f-right a:hover {
+      color: var(--orange);
+    }
+
+    /* ── REVEAL ── */
+    .r {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .r.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    .r1 {
+      transition-delay: 0.1s;
+    }
+
+    .r2 {
+      transition-delay: 0.2s;
+    }
+
+    .r3 {
+      transition-delay: 0.3s;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 100px 28px 56px;
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .hero-left {
+        padding-right: 0;
+      }
+
+      .hero-right {
+        padding-left: 0;
+        padding-top: 48px;
+      }
+
+      .hero-stats {
+        flex-direction: row;
+        gap: 28px;
+      }
+
+      .section,
+      .section-full {
+        padding: 72px 28px;
+      }
+
+      .s-header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .problem-list,
+      .market-layout,
+      .ask-section {
+        grid-template-columns: 1fr;
+      }
+
+      .p-item:nth-child(odd),
+      .p-item:nth-child(even) {
+        padding-left: 0;
+        padding-right: 0;
+        border-right: none;
+      }
+
+      .feat {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .feat-num {
+        display: none;
+      }
+
+      .int-list {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .traction-row {
+        grid-template-columns: 1fr;
+      }
+
+      .tr-item {
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+        padding-left: 0 !important;
+      }
+
+      .rmap-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      nav .nav-links {
+        display: none;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .ask-section {
+        grid-template-columns: 1fr;
+      }
+
+      .cli-line {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Lyto</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#problem" data-en="Problem" data-ru="Проблема">Problem</a></li>
+        <li><a href="#solution" data-en="Solution" data-ru="Решение">Solution</a></li>
+        <li><a href="#market" data-en="Market" data-ru="Рынок">Market</a></li>
+        <li><a href="#traction" data-en="Traction" data-ru="Результаты">Traction</a></li>
+        <li><a href="#ask" data-en="Invest" data-ru="Инвестиции">Invest</a></li>
+      </ul>
+      <div class="lang">
+        <button class="lang-btn on" onclick="setLang('en')">EN</button>
+        <span class="lang-sep">/</span>
+        <button class="lang-btn" onclick="setLang('ru')">RU</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-overline">
+        <span data-en="Pre-Seed · 2025" data-ru="Пре-сид · 2025">Pre-Seed · 2025</span>
+      </div>
+      <h1 class="hero-title">
+        <span data-en="Full" data-ru="Полный">Full</span><br>
+        <em data-en="control" data-ru="контроль">control</em><br>
+        <span data-en="over your" data-ru="над вашим">over your</span><br>
+        <span data-en="browser." data-ru="браузером.">browser.</span>
+      </h1>
+      <p class="hero-sub"
+        data-en="A Chrome extension that sees your context, remembers everything across tabs, and acts across your entire workspace — Google, Slack, GitHub, WhatsApp and more."
+        data-ru="Chrome-расширение, которое видит ваш контекст, запоминает всё между вкладками и действует во всём вашем рабочем пространстве — Google, Slack, GitHub, WhatsApp и многом другом.">
+        A Chrome extension that sees your context, remembers everything across tabs, and acts across your entire
+        workspace — Google, Slack, GitHub, WhatsApp and more.</p>
+      <a href="#ask" class="hero-cta">
+        <span data-en="See the pitch" data-ru="Смотреть питч">See the pitch</span> →
+      </a>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-stats">
+        <div class="h-stat">
+          <div class="h-stat-n">5</div>
+          <div class="h-stat-l" data-en="Paying customers" data-ru="Платящих клиентов">Paying customers</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n">$100</div>
+          <div class="h-stat-l" data-en="Monthly revenue" data-ru="Ежемесячный доход">Monthly revenue</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n">2</div>
+          <div class="h-stat-l" data-en="Active markets" data-ru="Активных рынка">Active markets</div>
+        </div>
+      </div>
+      <div class="hero-note" data-en="trylyto.com · Beta · Live" data-ru="trylyto.com · Бета · Активно">trylyto.com ·
+        Beta · Live</div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <div id="problem">
+    <div class="section">
+      <div class="s-header r">
+        <div class="s-num" data-en="01 — Problem" data-ru="01 — Проблема">01 — Problem</div>
+        <h2 class="s-title"><span data-en="AI tools today are" data-ru="Сегодняшние ИИ-инструменты">AI tools today
+            are</span> <em data-en="broken." data-ru="сломаны.">broken.</em></h2>
+      </div>
+      <div class="problem-list r">
+        <div class="p-item">
+          <div class="p-idx">i.</div>
+          <div>
+            <div class="p-name" data-en="Tab chaos" data-ru="Хаос вкладок">Tab chaos</div>
+            <p class="p-desc"
+              data-en="30+ tabs open, zero context between them. Every new AI chat starts from scratch and you repeat yourself endlessly."
+              data-ru="30+ открытых вкладок, ноль контекста между ними. Каждый новый ИИ-чат начинается с нуля, и вы бесконечно повторяете себя.">
+              30+ tabs open, zero context between them. Every new AI chat starts from scratch and you repeat yourself
+              endlessly.</p>
+          </div>
+        </div>
+        <div class="p-item">
+          <div class="p-idx">ii.</div>
+          <div>
+            <div class="p-name" data-en="Context resets" data-ru="Сброс контекста">Context resets</div>
+            <p class="p-desc"
+              data-en="ChatGPT, Claude, Gemini — every session is a blank slate. You re-explain your role, your project, your preferences. Every. Single. Time."
+              data-ru="ChatGPT, Claude, Gemini — каждая сессия начинается с чистого листа. Вы заново объясняете свою роль, проект, предпочтения. Каждый. Раз.">
+              ChatGPT, Claude, Gemini — every session is a blank slate. You re-explain your role, your project, your
+              preferences. Every. Single. Time.</p>
+          </div>
+        </div>
+        <div class="p-item">
+          <div class="p-idx">iii.</div>
+          <div>
+            <div class="p-name" data-en="Blind AI" data-ru="Слепой ИИ">Blind AI</div>
+            <p class="p-desc"
+              data-en="AI assistants work in isolation. They cannot see your screen, open tabs, or what you're doing. The context gap is enormous."
+              data-ru="ИИ-ассистенты работают изолированно. Они не видят ваш экран, открытые вкладки или то, что вы делаете. Разрыв в контексте огромен.">
+              AI assistants work in isolation. They cannot see your screen, open tabs, or what you're doing. The context
+              gap is enormous.</p>
+          </div>
+        </div>
+        <div class="p-item">
+          <div class="p-idx">iv.</div>
+          <div>
+            <div class="p-name" data-en="No real action" data-ru="Никаких действий">No real action</div>
+            <p class="p-desc"
+              data-en="LLMs give answers but can't fill forms, send Slack messages, create events, or push to GitHub. The last mile is broken."
+              data-ru="Языковые модели дают ответы, но не могут заполнить форму, написать в Slack, создать событие или сделать push в GitHub. Последняя миля сломана.">
+              LLMs give answers but can't fill forms, send Slack messages, create events, or push to GitHub. The last
+              mile is broken.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLUTION -->
+  <div id="solution">
+    <div class="section">
+      <div class="s-header r">
+        <div class="s-num" data-en="02 — Solution" data-ru="02 — Решение">02 — Solution</div>
+        <h2 class="s-title"><span data-en="Meet" data-ru="Знакомьтесь —">Meet</span> <em>Lyto AI.</em></h2>
+      </div>
+      <div class="feature-list">
+        <div class="feat r">
+          <div class="feat-num" data-en="one" data-ru="один">one</div>
+          <div class="feat-name" data-en="Persistent context memory" data-ru="Постоянная память контекста">
+            Persistent<br><em data-en="context memory" data-ru="контекста">context memory</em></div>
+          <p class="feat-desc"
+            data-en="Lyto remembers everything across tabs and sessions. No more re-explaining. It learns your workflow over time and surfaces what matters."
+            data-ru="Lyto запоминает всё между вкладками и сессиями. Больше никаких объяснений. Он учится вашему рабочему процессу и показывает то, что важно.">
+            Lyto remembers everything across tabs and sessions. No more re-explaining. It learns your workflow over time
+            and surfaces what matters.</p>
+        </div>
+        <div class="feat r r1">
+          <div class="feat-num" data-en="two" data-ru="два">two</div>
+          <div class="feat-name" data-en="DOM interaction engine" data-ru="Движок взаимодействия">DOM <em
+              data-en="interaction" data-ru="взаимодействия">interaction</em></div>
+          <p class="feat-desc"
+            data-en="Reads and acts on any page element. Fill forms, extract data, navigate pages — completely hands-free on any website."
+            data-ru="Читает и взаимодействует с любым элементом страницы. Заполняет формы, извлекает данные, навигирует по страницам — полностью автоматически.">
+            Reads and acts on any page element. Fill forms, extract data, navigate pages — completely hands-free on any
+            website.</p>
+        </div>
+        <div class="feat r r2">
+          <div class="feat-num" data-en="three" data-ru="три">three</div>
+          <div class="feat-name" data-en="Eight deep integrations" data-ru="Восемь интеграций">Eight deep <em
+              data-en="integrations" data-ru="интеграций">integrations</em></div>
+          <p class="feat-desc"
+            data-en="Google Docs, Sheets, Calendar, Gmail, WhatsApp, Slack, GitHub, Figma — all natively connected and actionable from a single prompt."
+            data-ru="Google Docs, Sheets, Calendar, Gmail, WhatsApp, Slack, GitHub, Figma — все нативно подключены и управляются одним запросом.">
+            Google Docs, Sheets, Calendar, Gmail, WhatsApp, Slack, GitHub, Figma — all natively connected and actionable
+            from a single prompt.</p>
+        </div>
+        <div class="feat r r3">
+          <div class="feat-num" data-en="four" data-ru="четыре">four</div>
+          <div class="feat-name" data-en="Research mode" data-ru="Режим исследования">Research <em data-en="mode"
+              data-ru="исследования">mode</em></div>
+          <p class="feat-desc"
+            data-en="Verified answers with visual graphs and 3D data objects. Deep research built directly into your browser — no tab-switching required."
+            data-ru="Проверенные ответы с визуальными графиками и 3D-объектами данных. Глубокие исследования прямо в браузере — без переключения вкладок.">
+            Verified answers with visual graphs and 3D data objects. Deep research built directly into your browser — no
+            tab-switching required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTEGRATIONS -->
+  <div class="section-full">
+    <div style="max-width:1200px;margin:0 auto;padding:0 0 0 0">
+      <div class="s-header r" style="padding:0 48px;margin-bottom:52px">
+        <div class="s-num" data-en="03 — Integrations" data-ru="03 — Интеграции">03 — Integrations</div>
+        <h2 class="s-title"><em data-en="Your whole stack." data-ru="Весь ваш стек.">Your whole stack.</em> <span
+            data-en="One command." data-ru="Одна команда.">One command.</span></h2>
+      </div>
+      <div class="int-list r" style="margin:0 48px">
+        <div class="int-item">
+          <div class="int-em">📝</div>
+          <div class="int-name">Google Docs</div>
+          <div class="int-desc" data-en="Write, fill, draft content in real time inside Docs."
+            data-ru="Пишет, заполняет, создаёт контент прямо в Docs.">Write, fill, draft content in real time inside
+            Docs.</div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+        <div class="int-item">
+          <div class="int-em">📊</div>
+          <div class="int-name">Google Sheets</div>
+          <div class="int-desc" data-en="Build tables and structure data from plain prompts."
+            data-ru="Строит таблицы из текстовых запросов.">Build tables and structure data from plain prompts.</div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+        <div class="int-item">
+          <div class="int-em">📅</div>
+          <div class="int-name">Google Calendar</div>
+          <div class="int-desc" data-en="Describe it, Lyto books it." data-ru="Опишите — Lyto забронирует.">Describe it,
+            Lyto books it.</div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+        <div class="int-item">
+          <div class="int-em">✉️</div>
+          <div class="int-name">Gmail</div>
+          <div class="int-desc" data-en="Read, summarize, draft replies in your voice."
+            data-ru="Читает, резюмирует, пишет ответы в вашем стиле.">Read, summarize, draft replies in your voice.
+          </div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+        <div class="int-item">
+          <div class="int-em">💬</div>
+          <div class="int-name">WhatsApp</div>
+          <div class="int-desc" data-en="/lyto to message or broadcast to groups."
+            data-ru="/lyto для сообщений контактам и рассылки.">/ lyto to message or broadcast to groups.</div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+        <div class="int-item">
+          <div class="int-em">🟣</div>
+          <div class="int-name">Slack</div>
+          <div class="int-desc" data-en="Send messages, search threads, summarize channels."
+            data-ru="Отправляет сообщения, ищет в тредах, резюмирует.">Send messages, search threads, summarize
+            channels.</div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+        <div class="int-item">
+          <div class="int-em">⚙️</div>
+          <div class="int-name">GitHub</div>
+          <div class="int-desc" data-en="Analyze repos, PR feedback, explain codebases."
+            data-ru="Анализирует репозитории, даёт обратную связь по PR.">Analyze repos, PR feedback, explain codebases.
+          </div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+        <div class="int-item">
+          <div class="int-em">🎨</div>
+          <div class="int-name">Figma</div>
+          <div class="int-desc" data-en="Navigate designs, extract specs, describe components."
+            data-ru="Навигирует по дизайнам, извлекает спецификации.">Navigate designs, extract specs, describe
+            components.</div>
+          <div class="int-live" data-en="active" data-ru="активно">active</div>
+        </div>
+      </div>
+    </div>
+    <div class="cli-line r">
+      <div class="cli-l-text">
+        <em data-en="Terminal CLI" data-ru="Terminal CLI">Terminal CLI</em> — <span
+          data-en="backend-first developer mode" data-ru="режим разработчика">backend-first developer mode</span>
+      </div>
+      <div class="cli-r-code">
+        $ lyto run --agent
+        <span class="cli-tag" data-en="coming soon" data-ru="скоро">coming soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKET -->
+  <div id="market">
+    <div class="section">
+      <div class="s-header r">
+        <div class="s-num" data-en="04 — Market" data-ru="04 — Рынок">04 — Market</div>
+        <h2 class="s-title"><span data-en="A $76B wave" data-ru="Волна на $76 млрд">A $76B wave</span><br><em
+            data-en="is forming." data-ru="формируется.">is forming.</em></h2>
+      </div>
+      <div class="market-layout">
+        <div class="mstat-col r">
+          <div class="mstat">
+            <div class="mstat-n">$2.3B</div>
+            <div class="mstat-l" data-en="AI Chrome Extension Market, 2025" data-ru="Рынок ИИ-расширений Chrome, 2025">
+              AI Chrome Extension Market, 2025</div>
+            <div class="mstat-src">market.us · 2025</div>
+          </div>
+          <div class="mstat">
+            <div class="mstat-n">22.5%</div>
+            <div class="mstat-l" data-en="CAGR through 2035" data-ru="CAGR до 2035 года">CAGR through 2035</div>
+            <div class="mstat-src">Verified Market Research</div>
+          </div>
+          <div class="mstat">
+            <div class="mstat-n">$76.8B</div>
+            <div class="mstat-l" data-en="AI Browser Market by 2034" data-ru="Рынок ИИ-браузеров к 2034 г.">AI Browser
+              Market by 2034</div>
+            <div class="mstat-src">market.us · 2025</div>
+          </div>
+        </div>
+        <div class="chart-col r r2" id="chartBox">
+          <div class="chart-label" data-en="Market growth, 2023 — 2033" data-ru="Рост рынка, 2023 — 2033">Market growth,
+            2023 — 2033</div>
+          <div class="bar-rows">
+            <div class="bar-row">
+              <div class="bar-yr">2023</div>
+              <div class="bar-track">
+                <div class="bar-fill soft" data-w="8.6"></div>
+              </div>
+              <div class="bar-val">$1.5B</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-yr">2024</div>
+              <div class="bar-track">
+                <div class="bar-fill soft" data-w="13.1"></div>
+              </div>
+              <div class="bar-val">$2.3B</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-yr">2025</div>
+              <div class="bar-track">
+                <div class="bar-fill" data-w="17.7"></div>
+              </div>
+              <div class="bar-val">$3.1B</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-yr">2028</div>
+              <div class="bar-track">
+                <div class="bar-fill" data-w="28.6"></div>
+              </div>
+              <div class="bar-val">$5.0B</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-yr">2030</div>
+              <div class="bar-track">
+                <div class="bar-fill" data-w="48.6"></div>
+              </div>
+              <div class="bar-val">$8.5B</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-yr">2033</div>
+              <div class="bar-track">
+                <div class="bar-fill" data-w="97"></div>
+              </div>
+              <div class="bar-val">$17B</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPETITION -->
+  <div>
+    <div class="section">
+      <div class="s-header r">
+        <div class="s-num" data-en="05 — Competition" data-ru="05 — Конкуренция">05 — Competition</div>
+        <h2 class="s-title"><span data-en="No one else" data-ru="Никто другой">No one else</span><br><em
+            data-en="does all of this." data-ru="не делает всего этого.">does all of this.</em></h2>
+      </div>
+      <table class="comp-table r">
+        <thead>
+          <tr>
+            <th></th>
+            <th data-en="Context" data-ru="Контекст">Context</th>
+            <th data-en="DOM" data-ru="DOM">DOM</th>
+            <th data-en="Integrations" data-ru="Интеграции">Integrations</th>
+            <th data-en="Research" data-ru="Исследования">Research</th>
+            <th data-en="Chrome" data-ru="Chrome">Chrome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="lyto-row">
+            <td><em>Lyto AI</em></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>ChatGPT</td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+          </tr>
+          <tr>
+            <td>Claude Extension</td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Perplexity Comet</td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Strawberry Browser</td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+          </tr>
+          <tr>
+            <td>Atlas</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="cr">✗</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="comp-caption r"
+        data-en="Lyto AI is the only Chrome extension with all five capabilities — one tool, full control."
+        data-ru="Lyto AI — единственное Chrome-расширение со всеми пятью возможностями — один инструмент, полный контроль.">
+        <em data-en="Lyto AI" data-ru="Lyto AI">Lyto AI</em> <span
+          data-en="is the only Chrome extension with all five capabilities — one tool, full control."
+          data-ru="— единственное Chrome-расширение со всеми пятью возможностями — один инструмент, полный контроль.">is
+          the only Chrome extension with all five capabilities — one tool, full control.</span></p>
+    </div>
+  </div>
+
+  <!-- TRACTION -->
+  <div id="traction">
+    <div class="section">
+      <div class="s-header r">
+        <div class="s-num" data-en="06 — Traction" data-ru="06 — Результаты">06 — Traction</div>
+        <h2 class="s-title"><em data-en="Early signal." data-ru="Первые сигналы.">Early signal.</em><br><span
+            data-en="Real revenue." data-ru="Реальный доход.">Real revenue.</span></h2>
+      </div>
+      <div class="traction-row r">
+        <div class="tr-item">
+          <div class="tr-n">5</div>
+          <div class="tr-label" data-en="Paying Customers" data-ru="Платящих клиентов">Paying Customers</div>
+          <div class="tr-sub" data-en="Pre-marketing · Beta" data-ru="До маркетинга · Бета">Pre-marketing · Beta</div>
+        </div>
+        <div class="tr-item">
+          <div class="tr-n">$100</div>
+          <div class="tr-label" data-en="Monthly Revenue" data-ru="Ежемесячный доход">Monthly Revenue</div>
+          <div class="tr-sub" data-en="Zero paid acquisition" data-ru="Ноль платного привлечения">Zero paid acquisition
+          </div>
+        </div>
+        <div class="tr-item">
+          <div class="tr-n">2</div>
+          <div class="tr-label" data-en="Active Markets" data-ru="Активных рынка">Active Markets</div>
+          <div class="tr-sub" data-en="United States + Kazakhstan" data-ru="США + Казахстан">United States + Kazakhstan
+          </div>
+        </div>
+      </div>
+      <div class="traction-note r r2">
+        <span data-en="We " data-ru="Мы ">We </span><strong data-en="intentionally slowed traffic"
+          data-ru="намеренно снизили трафик">intentionally slowed traffic</strong><span
+          data-en=" during our beta relaunch to ensure stability before scaling. These 5 customers converted organically — zero paid acquisition — validating product-market fit in both the US and Kazakh markets."
+          data-ru=" в ходе перезапуска беты, чтобы обеспечить стабильность перед масштабированием. Эти 5 клиентов конвертировались органически — без платного привлечения — подтверждая соответствие продукта рынку в США и Казахстане.">
+          during our beta relaunch to ensure stability before scaling. These 5 customers converted organically — zero
+          paid acquisition — validating product-market fit in both the US and Kazakh markets.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div>
+    <div class="section">
+      <div class="s-header r">
+        <div class="s-num" data-en="07 — Roadmap" data-ru="07 — Дорожная карта">07 — Roadmap</div>
+        <h2 class="s-title"><span data-en="Where we're" data-ru="Куда мы">Where we're</span> <em data-en="going."
+            data-ru="движемся.">going.</em></h2>
+      </div>
+      <div class="rmap-rows r">
+        <div class="rmap-row">
+          <div class="rmap-phase now" data-en="Now — Beta" data-ru="Сейчас — Бета">Now — Beta</div>
+          <div class="rmap-items-row">
+            <div class="rmap-item done"><span data-en="Extension live" data-ru="Расширение запущено">Extension
+                live</span></div>
+            <div class="rmap-item done"><span data-en="8 integrations" data-ru="8 интеграций">8 integrations</span>
+            </div>
+            <div class="rmap-item done"><span data-en="US & KZ users" data-ru="Клиенты в США и Казахстане">US & KZ
+                users</span></div>
+            <div class="rmap-item done"><span data-en="Context memory" data-ru="Память контекста">Context memory</span>
+            </div>
+          </div>
+        </div>
+        <div class="rmap-row">
+          <div class="rmap-phase" data-en="Q3 2025 — Growth" data-ru="Q3 2025 — Рост">Q3 2025 — Growth</div>
+          <div class="rmap-items-row">
+            <div class="rmap-item plan"><span data-en="US paid acquisition" data-ru="Платное привлечение в США">US paid
+                acquisition</span></div>
+            <div class="rmap-item plan"><span data-en="Expanded DOM toolkit"
+                data-ru="Расширенный DOM-инструментарий">Expanded DOM toolkit</span></div>
+            <div class="rmap-item plan"><span data-en="Team plans" data-ru="Командные планы">Team plans</span></div>
+            <div class="rmap-item plan"><span data-en="Mobile app" data-ru="Мобильное приложение">Mobile app</span>
+            </div>
+          </div>
+        </div>
+        <div class="rmap-row">
+          <div class="rmap-phase" data-en="Q4 2025 — Scale" data-ru="Q4 2025 — Масштаб">Q4 2025 — Scale</div>
+          <div class="rmap-items-row">
+            <div class="rmap-item fut"><span data-en="Terminal CLI" data-ru="Terminal CLI">Terminal CLI</span></div>
+            <div class="rmap-item fut"><span data-en="Enterprise + SSO" data-ru="Корпоративный + SSO">Enterprise +
+                SSO</span></div>
+            <div class="rmap-item fut"><span data-en="Third-party API" data-ru="API для третьих сторон">Third-party
+                API</span></div>
+            <div class="rmap-item fut"><span data-en="Seed preparation" data-ru="Подготовка к сид-раунду">Seed
+                preparation</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASK -->
+  <div id="ask" style="background:#faf9f7">
+    <div class="ask-section r">
+      <div class="ask-left">
+        <div
+          style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--orange);margin-bottom:24px;font-weight:400"
+          data-en="08 — The Ask" data-ru="08 — Инвестиции">08 — The Ask</div>
+        <h2 class="ask-big">
+          <span data-en="Let's build" data-ru="Давайте построим">Let's build</span><br>
+          <em data-en="the browser layer" data-ru="браузерный слой">the browser layer</em><br>
+          <span data-en="of AI." data-ru="ИИ вместе.">of AI.</span>
+        </h2>
+        <p class="ask-sub-text"
+          data-en="We have the product, the traction, and the vision. We're raising our pre-seed from partners who see the same $76B opportunity."
+          data-ru="У нас есть продукт, результаты и видение. Мы привлекаем пре-сид от партнёров, которые видят ту же возможность на $76 млрд.">
+          We have the product, the traction, and the vision. We're raising our pre-seed from partners who see the same
+          $76B opportunity.</p>
+        <a href="https://trylyto.com" class="ask-cta" data-en="Try Lyto AI →" data-ru="Попробовать Lyto AI →">Try Lyto
+          AI →</a>
+      </div>
+      <div class="ask-right">
+        <div class="ask-rows">
+          <div class="ask-row">
+            <div class="ask-k" data-en="Round" data-ru="Раунд">Round</div>
+            <div class="ask-v" data-en="Pre-Seed" data-ru="Пре-сид">Pre-Seed</div>
+          </div>
+          <div class="ask-row">
+            <div class="ask-k" data-en="Use of funds" data-ru="Использование">Use of funds</div>
+            <div class="ask-v" data-en="US Growth · Engineering" data-ru="Рост в США · Разработка">US Growth ·
+              Engineering</div>
+          </div>
+          <div class="ask-row">
+            <div class="ask-k" data-en="Primary market" data-ru="Основной рынок">Primary market</div>
+            <div class="ask-v" data-en="United States" data-ru="США">United States</div>
+          </div>
+          <div class="ask-row">
+            <div class="ask-k" data-en="Model" data-ru="Модель">Model</div>
+            <div class="ask-v" data-en="SaaS subscription" data-ru="SaaS подписка">SaaS subscription</div>
+          </div>
+          <div class="ask-row">
+            <div class="ask-k" data-en="Current MRR" data-ru="MRR">Current MRR</div>
+            <div class="ask-v orange">$100</div>
+          </div>
+          <div class="ask-row">
+            <div class="ask-k" data-en="Customers" data-ru="Клиенты">Customers</div>
+            <div class="ask-v" data-en="5 · US + Kazakhstan" data-ru="5 · США + Казахстан">5 · US + Kazakhstan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="f-logo">Lyto</div>
+    <div class="f-right">
+      <span data-en="Pre-Seed 2025" data-ru="Пре-сид 2025">Pre-Seed 2025</span>
+      <a href="https://trylyto.com">trylyto.com</a>
+      <span data-en="US + Kazakhstan" data-ru="США + Казахстан">US + Kazakhstan</span>
+    </div>
+  </footer>
+
+  <script>
+    /* LANG */
+    function setLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.textContent.toLowerCase() === lang));
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        if (el.children.length === 0) el.textContent = el.getAttribute('data-' + lang);
+      });
+      document.title = lang === 'ru' ? 'LYTO AI — Полный контроль' : 'LYTO AI';
+    }
+
+    /* REVEAL */
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+    /* BARS */
+    const barObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.currentTarget.querySelectorAll('.bar-fill').forEach((b, i) => {
+          const w = parseFloat(b.getAttribute('data-w'));
+          setTimeout(() => { b.style.width = w + '%'; b.style.transform = 'scaleX(1)'; }, i * 120);
+        });
+        barObs.unobserve(e.currentTarget);
+      });
+    }, { threshold: 0.3 });
+    const cb = document.getElementById('chartBox');
+    if (cb) barObs.observe(cb);
+
+    /* SMOOTH SCROLL */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+
+</html>
